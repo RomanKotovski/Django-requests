@@ -1,30 +1,11 @@
 from django.db import models
-from django.template.defaultfilters import slugify
 
 
 class Phone(models.Model):
-    name = models.CharField(max_length=50)
-    image = models.CharField(max_length=250)
-    price = models.IntegerField()
-    release_date = models.CharField(max_length=50)
+    id = models.PositiveIntegerField(primary_key=True, verbose_name='id')
+    name = models.CharField(max_length=100, verbose_name='name')
+    price = models.PositiveIntegerField(verbose_name='price')
+    image = models.URLField(max_length=200, verbose_name='image')
+    release_date = models.DateField(auto_now=False, auto_now_add=False, verbose_name='release_date')
     lte_exists = models.BooleanField()
-    slug = models.SlugField(null=False, unique=True)
-
-    def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
-        return super().save(*args, **kwargs) - models
-
-
-
-
-
-
-    # id = models.CharField(max_length=50, primary_key=True)
-    # name = models.CharField(max_length=50)
-    # price = models.PositiveIntegerField
-    # image = models.URLField(max_length=200)
-    # release_date = models.TimeField(max_length=50)
-    # lte_exists = models.BooleanField
-    # slug = models.SlugField(max_length=50, db_column=name, unique=True)
-
+    slug = models.SlugField(max_length=150, unique=True)

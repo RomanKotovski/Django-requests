@@ -1,5 +1,7 @@
 import csv
 
+from django.utils.text import slugify
+
 from django.core.management.base import BaseCommand
 from phones.models import Phone
 
@@ -12,12 +14,12 @@ class Command(BaseCommand):
         with open('phones.csv', 'r') as file:
             phones = list(csv.DictReader(file, delimiter=';'))
 
-        for phone in phones:
-            Phone.objects.create(
-                id=phone['id'],
-                name=phone['name'],
-                image=phone['image'],
-                price=phone['price'],
-                release_date=phone['release_date'],
-                lte_exists=phone['lte_exists']
-            )
+            for item in phones:
+                Phone.objects.create(
+                    id=item['id'],
+                    name=item['name'],
+                    price=item['price'],
+                    image=item['image'],
+                    release_date=item['release_date'],
+                    lte_exists=item['lte_exists'],
+                    slug=slugify(item['name']))
